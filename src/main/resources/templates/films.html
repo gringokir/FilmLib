@@ -1,0 +1,30 @@
+<!--suppress HtmlFormInputWithoutLabel -->
+<html xmlns:th="http://thymeleaf.org">
+<body>
+<div>
+    <form method="post" th:action="@{/films}" th:object="${film}">
+        <input type="text" name="title" placeholder="Input film title">
+        <input type="text" name="genre" placeholder="Input genre">
+        <button type="submit">Create Film</button>
+    </form>
+</div>
+
+<div>
+    <table>
+        <thead>
+        <tr>
+            <th> Title </th>
+            <th> Genres </th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr th:each="film : ${films}">
+            <td><span th:text="${film.title}"> Title </span></td>
+            <td><span th:text="${film.genre}"> Genre </span></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
