@@ -1,10 +1,8 @@
 package com.example.filmlib.app.controller;
 
 import com.example.filmlib.app.entity.Film;
-import com.example.filmlib.app.repository.FilmRepo;
 import com.example.filmlib.app.service.FilmService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +25,7 @@ public class FilmController {
         return "films";
     }
 
-    @PostMapping/*("/create")*/
+    @PostMapping
     public String add(@RequestParam String title, @RequestParam String genre, Model model) {
         Film film = new Film(title, genre);
         filmService.save(film);

@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping(value = "/g")
+@RequestMapping(value = "/")
 public class GreetingController {
     @GetMapping
     public String greet() {

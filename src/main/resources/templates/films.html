@@ -2,6 +2,11 @@
 <html xmlns:th="http://thymeleaf.org">
 <body>
 <div>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign Out"/>
+    </form>
+</div>
+<div>
     <form method="post" th:action="@{/films}" th:object="${film}">
         <input type="text" name="title" placeholder="Input film title">
         <input type="text" name="genre" placeholder="Input genre">
