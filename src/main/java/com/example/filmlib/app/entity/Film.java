@@ -4,10 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -19,10 +17,13 @@ public class Film {
     private Long id;
 
     private String title;
-    private String genre;
+    @ElementCollection(targetClass = Genre.class)
+    @CollectionTable(name = "film_genre", joinColumns = @JoinColumn(name = "film_id"))
+    @Enumerated(EnumType.STRING)
+    private Set<Genre> genre;
 
-    public Film(String title, String genre) {
+    public Film(String title) {
         this.title = title;
-        this.genre = genre;
     }
+    
 }
