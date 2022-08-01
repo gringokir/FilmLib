@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User list</title>
+</head>
+<body>
+<form th:action="@{/films}" method="get">
+    <input type="submit" value="Return to films"/>
+</form>
+<table>
+    <thead>
+    <tr>
+        <th> Username </th>
+        <th> Role </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <tr th:each="user : ${users}">
+        <td><span th:text="${user.username}"> Username </span></td>
+        <td><span th:text="${user.roles}"> Role </span></td>
+        <td><a th:href="@{/users/__${user.id}__}"> Edit </a></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
