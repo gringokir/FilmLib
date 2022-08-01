@@ -8,8 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
-
 @Controller
 @RequestMapping("/films")
 public class FilmController {
@@ -25,6 +23,14 @@ public class FilmController {
         model.addAttribute("films", filmService.findAll());
         model.addAttribute("genres", Genre.values());
         return "films";
+    }
+
+    @GetMapping("{id}")
+    public String filmPage(@PathVariable Long id, Model model) {
+        model.addAttribute("title", filmService.findByID(id).getTitle());
+        String genres = filmService.findByID(id).getGenre().toString();
+        model.addAttribute("genres", genres);
+        return "filmPage";
     }
 
     @PostMapping

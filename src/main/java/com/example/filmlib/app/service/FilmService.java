@@ -7,5 +7,7 @@ import java.util.List;
 public interface FilmService {
     Film save(Film film);
 
+    Film findByID(Long id);
+
     List<Film> findAll();
 }

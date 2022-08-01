@@ -1,0 +1,9 @@
+<html xmlns:sec="http://www.w3.org/1999/xhtml">
+    <body>
+        <div id="header" th:fragment="header" sec:authorize="isAuthenticated()">
+            <form th:action="@{/logout}" method="post">
+                <input type="submit" value="Logout"/>
+            </form>
+        </div>
+    </body>
+</html>

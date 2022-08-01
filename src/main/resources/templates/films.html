@@ -3,13 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Film Library</title>
+    <div th:replace="common :: header"></div>
 </head>
 <body>
-<div>
-    <form th:action="@{/logout}" method="post">
-        <input type="submit" value="Sign Out"/>
-    </form>
-</div>
+
 <div>
     <form method="post" th:action="@{/films}" th:object="${film}">
         <input type="text" name="title" placeholder="Input film title">
@@ -36,7 +33,7 @@
         <tbody>
 
         <tr th:each="film : ${films}">
-            <td><span th:text="${film.title}"> Title </span></td>
+            <td><a th:href="@{/films/__${film.id}__}" th:text="${film.title}"> Title </a></td>
             <td><span th:text="${film.genre}"> Genre </span></td>
         </tr>
         </tbody>
