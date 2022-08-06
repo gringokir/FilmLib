@@ -3,20 +3,19 @@ package com.example.filmlib.app.controller;
 import com.example.filmlib.app.entity.Role;
 import com.example.filmlib.app.entity.User;
 import com.example.filmlib.app.repository.UserRepo;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/users")
+@PreAuthorize("hasAuthority('ADMIN')")
 public class UserController {
     private final UserRepo userRepo;
 
@@ -33,7 +32,7 @@ public class UserController {
     @GetMapping("{user}")
     public String editUser(@PathVariable User user, Model model) {
         model.addAttribute("user", user);
-        model.addAttribute("roles", Arrays.asList(Role.values()) );
+        model.addAttribute("roles", Arrays.asList(Role.values()));
         return "userEdit";
     }
 
@@ -41,7 +40,7 @@ public class UserController {
     public String userSave(
             @RequestParam("userId") User user,
             @RequestParam String username,
-            @RequestParam Map<String , String > form
+            @RequestParam Map<String , String > userRoles
             ) {
         user.setUsername(username);
 
@@ -51,7 +50,7 @@ public class UserController {
 
         user.getRoles().clear();
 
-        for (String key : form.keySet()) {
+        for (String key : userRoles.keySet()) {
             if (roles.contains(key)) {
                 user.getRoles().add(Role.valueOf(key));
             }

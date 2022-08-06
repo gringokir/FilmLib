@@ -1,13 +1,27 @@
 <!--suppress HtmlFormInputWithoutLabel -->
-<html xmlns:th="http://thymeleaf.org">
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
+              integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+              crossorigin="anonymous">
     <meta charset="UTF-8">
     <title>Film Library</title>
-    <div th:replace="common :: header"></div>
 </head>
 <body>
-
-<div>
+<div th:insert="fragments/navbar :: navbar"></div>
+<p sec:authorize="hasAuthority('ADMIN')">
+    <button class="btn btn-primary m-3" type="button" data-toggle="collapse" data-target="#createfilm"
+            aria-expanded="false" aria-controls="createfilm">
+        Create film
+    </button>
+</p>
+<div class="collapse m-3" id="createfilm" sec:authorize="hasAuthority('ADMIN')">
     <form method="post" th:action="@{/films}" th:object="${film}">
         <input type="text" name="title" placeholder="Input film title">
         <ul>
@@ -38,6 +52,18 @@
         </tr>
         </tbody>
     </table>
+</div>
+<div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+            integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+            crossorigin="anonymous"></script>
+
 </div>
 </body>
 </html>
