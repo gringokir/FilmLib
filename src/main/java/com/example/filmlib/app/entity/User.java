@@ -1,6 +1,8 @@
 package com.example.filmlib.app.entity;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,12 +10,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
 @Setter
 @Getter
+@NoArgsConstructor
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,10 +31,22 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles = new HashSet<>();
 
+    @OneToMany(mappedBy = "user")
+    private Set<FilmRating> filmRatings = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "watched_films",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "film_id")
+    )
+    private Set<Film> watchedFilms = new HashSet<>();
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRoles();
     }
+
     public Set<Role> getRoles() {
         return roles;
     }
@@ -53,5 +69,18 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return isActive();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id.equals(user.id) && username.equals(user.username) && password.equals(user.password);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, password);
     }
 }

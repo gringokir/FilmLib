@@ -5,9 +5,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
+@Table(name = "films")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -21,10 +24,25 @@ public class Film {
     @ElementCollection(targetClass = Genre.class)
     @CollectionTable(name = "film_genre", joinColumns = @JoinColumn(name = "film_id"))
     @Enumerated(EnumType.STRING)
-    private Set<Genre> genre;
+    private Set<Genre> genre = new HashSet<>();
 
-    public Film(String title) {
-        this.title = title;
+    private double rating;
+    @OneToMany(mappedBy = "film")
+    private Set<FilmRating> filmRatings = new HashSet<>();
+
+    @ManyToMany(mappedBy = "watchedFilms")
+    private Set<User> users = new HashSet<>();                      //user which watched this film
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Film film = (Film) o;
+        return getId().equals(film.getId());
     }
-    
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
 }
