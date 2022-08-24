@@ -42,6 +42,12 @@ public class User implements UserDetails {
     )
     private Set<Film> watchedFilms = new HashSet<>();
 
+    public User(String username, String password, boolean active) {
+        this.username = username;
+        this.password = password;
+        this.active = active;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRoles();

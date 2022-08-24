@@ -19,7 +19,7 @@ public class Film {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;
-    private String yearOfCreation;
+    private int yearOfCreation;
 
     @ElementCollection(targetClass = Genre.class)
     @CollectionTable(name = "film_genre", joinColumns = @JoinColumn(name = "film_id"))
@@ -32,6 +32,12 @@ public class Film {
 
     @ManyToMany(mappedBy = "watchedFilms")
     private Set<User> users = new HashSet<>();                      //user which watched this film
+
+    public Film(String title, int yearOfCreation) {
+        this.title = title;
+        this.yearOfCreation = yearOfCreation;
+        this.rating = 0.0;
+    }
 
     @Override
     public boolean equals(Object o) {

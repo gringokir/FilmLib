@@ -21,9 +21,14 @@ public class RatingServiceImpl implements RatingService {
     }
 
     @Override
-    public void changeRating(User user, Film film, int rating) {
+    public FilmRating changeRating(User user, Film film, int rating) {
         FilmRating filmRating = new FilmRating(user, film, rating);
         ratingRepo.save(filmRating);
+        addFilmToWatchedList(user, film);
+        return filmRating;
+    }
+
+    private void addFilmToWatchedList(User user, Film film) {
         user.getWatchedFilms().add(film);
         userRepo.save(user);
     }
@@ -37,9 +42,13 @@ public class RatingServiceImpl implements RatingService {
     @Transactional
     public void deleteFilmRatingByFilmAndUser(Film film, User user) {
         ratingRepo.deleteFilmRatingByFilmAndUser(film, user);
+        deleteFilmFromUser(film, user);
+        refreshRating(film);
+    }
+
+    private void deleteFilmFromUser(Film film, User user) {
         user.getWatchedFilms().remove(film);
         userRepo.save(user);
-        refreshRating(film);
     }
 
     @Override

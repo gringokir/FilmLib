@@ -1,6 +1,7 @@
 package com.example.filmlib.app.entity;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 public class FilmRating {
@@ -60,5 +61,18 @@ public class FilmRating {
 
     public void setRating(int rating) {
         this.rating = rating;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FilmRating that = (FilmRating) o;
+        return getId().equals(that.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 }
