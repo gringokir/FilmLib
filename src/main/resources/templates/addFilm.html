@@ -1,0 +1,90 @@
+<!--suppress HtmlFormInputWithoutLabel -->
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+    <title>Add Film</title>
+</head>
+<body>
+<div th:insert="fragments/navbar :: navbar"></div>
+<div style="margin: 0 auto">
+    <p>
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#addArtist"
+                aria-expanded="false" aria-controls="addArtist">
+            Create artist
+        </button>
+    </p>
+    <div class="collapse" id="addArtist">
+        <form method="post" th:action="@{/artists/create}" th:object="${artist}">
+            <input type="text" name="name" placeholder="Input artist name">
+
+            <div class="input-group mb-3" style="width: 20%">
+                <div class="input-group-prepend">
+                    <label class="input-group-text">Country</label>
+                </div>
+                <select th:field="${artist.birthCountry}" class="custom-select">
+                    <option th:each="country : ${countries}" th:value="${country}" th:text="${country}"></option>
+                </select>
+            </div>
+            <div>
+                <ul>
+                    <li th:each="job:${artistJobs}">
+                        <div>
+                            <input type="checkbox" th:field="*{job}" th:value="${job}">
+                            <label th:text="${job}"></label>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <button type="submit">Create artist</button>
+        </form>
+    </div>
+
+    <div style="padding: 10px">
+        <form method="post" th:action="@{/films/add}" th:object="${film}">
+            <input type="text" name="title" placeholder="Input film title">
+            <input type="text" name="yearOfCreation" placeholder="Input year of creation">
+            <div>
+                <ul>
+                    <li th:each="genre:${genres}">
+                        <div>
+                            <input type="checkbox" th:field="*{genre}" th:value="${genre}">
+                            <label th:text="${genre}"></label>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <ul>
+                    <li th:each="artist:${artists}">
+                        <div>
+                            <input type="checkbox" name="Artists" th:value="${artist.id}"/>
+                            <label th:text="${artist.name}"></label>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <button type="submit">Create Film</button>
+        </form>
+    </div>
+</div>
+<div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+            integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+            crossorigin="anonymous"></script>
+</div>
+</body>
+</html>

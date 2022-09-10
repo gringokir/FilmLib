@@ -18,7 +18,6 @@
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
@@ -28,7 +27,10 @@
                 <a class="nav-link" th:href="@{/films}"> Films </a>
             </li>
             <li class="nav-item active" sec:authorize="hasAuthority('ADMIN')">
-                <a class="nav-link" href="/users"> User list </a>
+                <a class="nav-link" th:href="@{/users}"> User list </a>
+            </li>
+            <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
+                <a class="nav-link" th:href="@{/films/add-film}">Add film</a>
             </li>
         </ul>
         <div class="navbar-text" sec:authentication="name">Unknown</div>

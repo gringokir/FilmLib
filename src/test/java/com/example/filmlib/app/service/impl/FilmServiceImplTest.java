@@ -2,24 +2,20 @@ package com.example.filmlib.app.service.impl;
 
 import com.example.filmlib.app.entity.Film;
 import com.example.filmlib.app.repository.FilmRepo;
+import com.example.filmlib.app.service.ArtistService;
 import com.example.filmlib.app.service.RatingService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class FilmServiceImplTest {
@@ -30,11 +26,13 @@ class FilmServiceImplTest {
     private FilmRepo filmRepo;
     @Mock
     private RatingService ratingService;
+    @Mock
+    private ArtistService artistService;
     private Film film;
 
     @BeforeEach
     void setUp() {
-        underTest = new FilmServiceImpl(filmRepo, ratingService);
+        underTest = new FilmServiceImpl(filmRepo, ratingService, artistService);
     }
 
     @Test

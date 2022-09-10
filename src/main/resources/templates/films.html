@@ -15,27 +15,8 @@
 </head>
 <body>
 <div th:insert="fragments/navbar :: navbar"></div>
-<p sec:authorize="hasAuthority('ADMIN')">
-    <button class="btn btn-primary m-3" type="button" data-toggle="collapse" data-target="#createfilm"
-            aria-expanded="false" aria-controls="createfilm">
-        Create film
-    </button>
-</p>
-<div class="collapse m-3" id="createfilm" sec:authorize="hasAuthority('ADMIN')">
-    <form method="post" th:action="@{/films/add}" th:object="${film}">
-        <input type="text" name="title" placeholder="Input film title">
-        <ul>
-            <li th:each="genre:${genres}">
-                <div>
-                    <input type="checkbox" th:field="*{genre}" th:value="${genre}">
-                    <label th:text="${genre}"></label>
-                </div>
-            </li>
-        </ul>
-        <button type="submit">Create Film</button>
-    </form>
-</div>
-<div style="width:50%">
+<div style="width:70%">
+    <!--; margin:0 auto; padding-top: 10px-->
     <table class="table table-bordered table-responsive-xl">
         <thead class="thead-dark">
         <tr>
@@ -48,7 +29,8 @@
         <tbody>
         <tr th:each="film : ${films}"
             th:style="${film.getUsers().contains(user) ? 'background-color:orange;' : _}">
-            <td><a th:href="@{/films/__${film.id}__}" th:text="${film.title}"> Title </a></td>
+            <td><a th:href="@{/films/film?id=__${film.id}__}"
+                   th:text="${film.title} + ' (' + ${film.yearOfCreation} + ')'"> Title </a></td>
             <td><span th:text="${film.genre}"> Genre </span></td>
             <td><span th:text="${film.rating}"> Rating </span></td>
             <td>
@@ -63,6 +45,8 @@
                 <form method="get" th:action="@{/films/deleteRating/__${film.id}__/__${user.getId()}__}">
                     <button class="btn btn-primary btn-sm" type="submit">Delete rating</button>
                 </form>
+                <a th:href="@{/films/delete?id=__${film.id}__}" sec:authorize="hasAuthority('ADMIN')"
+                   th:text="'Delete film'"></a>
             </td>
         </tr>
         </tbody>
@@ -78,7 +62,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
             integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
             crossorigin="anonymous"></script>
-
 </div>
 </body>
 </html>

@@ -33,10 +33,18 @@ public class Film {
     @ManyToMany(mappedBy = "watchedFilms")
     private Set<User> users = new HashSet<>();                      //user which watched this film
 
+    @ManyToMany(mappedBy = "films")
+    private Set<Artist> artists = new HashSet<>();
+
     public Film(String title, int yearOfCreation) {
         this.title = title;
         this.yearOfCreation = yearOfCreation;
         this.rating = 0.0;
+    }
+
+    public void clearUsersAndArtists() {
+        users.forEach(user -> user.getWatchedFilms().remove(this));
+        artists.forEach(artist -> artist.getFilms().remove(this));
     }
 
     @Override

@@ -7,8 +7,7 @@ import com.example.filmlib.app.repository.RatingRepo;
 import com.example.filmlib.app.repository.UserRepo;
 import com.example.filmlib.app.service.RatingService;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class RatingServiceImpl implements RatingService {
@@ -34,6 +33,7 @@ public class RatingServiceImpl implements RatingService {
     }
 
     @Override
+    @Transactional
     public FilmRating findRatingByFilmAndUser(Film film, User user) {
         return ratingRepo.findRatingByFilmAndUser(film, user);
     }
