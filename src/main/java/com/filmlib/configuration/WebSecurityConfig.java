@@ -22,8 +22,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .cors().and()
                 .authorizeRequests()
-                    .antMatchers("/", "/registration").permitAll()
+                .antMatchers("/*").permitAll();
+                /*.authorizeRequests()
+                    .antMatchers("/", "/registration", "films").permitAll()
                     .anyRequest().authenticated()
                 .and()
                     .formLogin()
@@ -31,7 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .permitAll()
                 .and()
                     .logout()
-                    .permitAll();
+                    .permitAll();*/
     }
 
     @Override

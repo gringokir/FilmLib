@@ -1,5 +1,6 @@
 package com.filmlib.entity;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,15 +18,20 @@ import java.util.Set;
 public class Film {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonView(Views.Film.class)
     private Long id;
+    @JsonView(Views.Film.class)
     private String title;
+    @JsonView(Views.Film.class)
     private int yearOfCreation;
 
     @ElementCollection(targetClass = Genre.class)
     @CollectionTable(name = "film_genre", joinColumns = @JoinColumn(name = "film_id"))
     @Enumerated(EnumType.STRING)
+    @JsonView(Views.Film.class)
     private Set<Genre> genre = new HashSet<>();
 
+    @JsonView(Views.Film.class)
     private double rating;
     @OneToMany(mappedBy = "film")
     private Set<FilmRating> filmRatings = new HashSet<>();

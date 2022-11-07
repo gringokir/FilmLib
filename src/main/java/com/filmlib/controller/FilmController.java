@@ -1,16 +1,15 @@
 package com.filmlib.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.filmlib.entity.*;
 import com.filmlib.service.ArtistService;
 import com.filmlib.service.FilmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -27,16 +26,17 @@ public class FilmController {
     }
 
     @GetMapping
-    public String showAll(Model model, Authentication auth) {
-        User user = (User) auth.getPrincipal();
-        List<Film> films = filmService.findAll();
-        films.sort(Comparator.comparing(Film::getId));
+    @ResponseBody
+    @JsonView(Views.Film.class)
+    public List<Film> all() {
+        return filmService.findAll();
+    }
 
-        model.addAttribute("user", user);
-        model.addAttribute("film", new Film());
-        model.addAttribute("films", films);
-        model.addAttribute("genres", Genre.values());
-        return "films";
+    @GetMapping("/film/{id}")
+    @ResponseBody
+    @JsonView(Views.Film.class)
+    public Film filmPage(@PathVariable Long id) {
+        return filmService.findByID(id);
     }
 
     @GetMapping("/film")
