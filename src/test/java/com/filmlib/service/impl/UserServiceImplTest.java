@@ -19,7 +19,7 @@ class UserServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        underTest = new UserServiceImpl(userRepo);
+//        underTest = new UserServiceImpl(userRepo, passwordConfig);
     }
 
     @Test
