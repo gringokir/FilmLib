@@ -3,7 +3,7 @@ package com.filmlib.controller;
 import com.filmlib.entity.Role;
 import com.filmlib.entity.User;
 import com.filmlib.service.UserService;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,8 +27,13 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public String addUser(User user, Model model) {
-        UserDetails userFromDb = userService.loadUserByUsername(user.getUsername());
+    public String addUser(User user, Model model) throws UsernameNotFoundException {
+        org.springframework.security.core.userdetails.UserDetails userFromDb = null;
+        try {
+            userFromDb = userService.loadUserByUsername(user.getUsername());
+        } catch (UsernameNotFoundException e){
+            e.printStackTrace();
+        }
 
 
         if (userFromDb != null) {
