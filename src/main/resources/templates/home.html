@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <title>FilmLibrary</title>
     <!-- Required meta tags -->
@@ -13,6 +13,7 @@
 <body>
 <div th:insert="fragments/navbar :: navbar"></div>
 <p>Hi, look at this films</p>
+<p sec:authorize="hasAuthority('ADMIN')">Authorized</p>
 <a href="/films">Library</a>
 </body>
 </html>

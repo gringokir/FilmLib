@@ -29,5 +29,10 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-### VS Code ###
+node_modules/
+.cache/
+dist/
+.env
+.DS_Store
+coverage/
 .vscode/
