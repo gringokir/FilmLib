@@ -9,7 +9,7 @@ import { useState } from 'react';
 import {AuthContext} from './auth';
 import { hasJWT } from "./auth";
 
-export default function Routers() {  
+export default function App() {  
   const [isAuth, setAuth] = useState(hasJWT);
   return(
     <div>
