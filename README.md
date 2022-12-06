@@ -6,6 +6,7 @@ FilmLib is a simple clone of IMDB/Kinopoisk
 
 * Java
 * Spring Boot
+* React
 * Hibernate
 * JUnit
 * Mockito
