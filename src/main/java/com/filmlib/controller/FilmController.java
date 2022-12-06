@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.filmlib.entity.*;
 import com.filmlib.service.ArtistService;
 import com.filmlib.service.FilmService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 @Controller
+@Slf4j
 @RequestMapping("/films")
 public class FilmController {
     private final FilmService filmService;
@@ -29,6 +31,7 @@ public class FilmController {
     @ResponseBody
     @JsonView(Views.Film.class)
     public List<Film> all() {
+        log.info("List of all films was called");
         return filmService.findAll();
     }
 
@@ -36,7 +39,9 @@ public class FilmController {
     @ResponseBody
     @JsonView(Views.Film.class)
     public Film filmPage(@PathVariable Long id) {
-        return filmService.findByID(id);
+        Film film = filmService.findByID(id);
+        log.info("Film with title: \"" + film.getTitle() + "\" was called");
+        return film;
     }
 
     @GetMapping("/film")

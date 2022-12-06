@@ -1,20 +1,26 @@
 import React, { useEffect, useState } from 'react';
+import axios from "axios";
+import { hasJWT } from "./auth";
+import { useNavigate } from "react-router-dom";
 
-function App() {
+export default function Films() {
   const [films, setFilms] = useState([])
+  const navigate = useNavigate();
 
-  useEffect(()=>{
-    fetch("http://localhost:8081/films")
-    .then(res=>res.json())
-    .then((result)=>{setFilms(result);})
-    .catch((err) => console.error(err))
+  useEffect(() => {
+    if (!hasJWT()){
+      navigate("/login");
+    }
+    let result = axios.get("http://localhost:8081/films")
+    .then(res => setFilms(res.data))
+    .catch((err) => console.error(err));
   }, [])
 
   return (
     <div className="App">
       <header className="App-header">
         <p>
-          Welcome to FilmLib
+          Film List
         </p>
         {films.map((film)=>{
           return(
@@ -28,5 +34,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
