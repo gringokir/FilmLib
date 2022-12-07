@@ -1,14 +1,17 @@
 import { useState, useContext } from "react";
-import {Form, Button, Card} from 'react-bootstrap';
+import {Form, Button, Card, Alert} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/Login.css'
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import {AuthContext} from './auth';
+import { AuthContext } from './auth';
 
 export default function Login() {
   const navigate = useNavigate();
   const {isAuth, setAuth} = useContext(AuthContext);
+  const [alert, setAlert] = useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = (event) => {
       event.preventDefault();
@@ -20,35 +23,41 @@ export default function Login() {
       axios.post('http://localhost:8081/login', params)
       .then(json => {
         localStorage.setItem("accessToken", json.data.accessToken);
+        setAuth(true);
+        navigate("/");
       })
-      .catch((err) => console.error(err));
-
-      setAuth(true);
-      navigate("/");
+      .catch((err) => {
+        console.error(err);
+        setAlert(true);
+      });
   }
-    
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
 
   return (
     <>
     <div>
-      <Card className="Card">
+      <Card className="card">
         <Card.Header>Login</Card.Header>
         <Card.Body>
-          <Form id="loginForm" onSubmit={handleSubmit} className="LoginForm">
+          <Form className="loginForm" onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Username</Form.Label>
-              <Form.Control required type="text" value={username} onChange={e => setUsername(e.target.value)} placeholder="Username" />
+              <Form.Control required type="text" value={username}
+               onChange={e => setUsername(e.target.value)} placeholder="Username" />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>Password</Form.Label>
-              <Form.Control required type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" />
+              <Form.Control required type="password" value={password}
+               onChange={e => setPassword(e.target.value)} placeholder="Password" />
             </Form.Group>
 
             <Button variant="primary" type="submit">Submit</Button>
           </Form>
+          {alert && (
+          <Alert className="alert" variant="danger" onClose={() => setAlert(false)} dismissible>
+              <p>Username or passowrd are incorrect!</p>
+          </Alert>
+          )}
         </Card.Body>
       </Card>
     </div>

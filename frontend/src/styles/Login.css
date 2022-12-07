@@ -1,11 +1,14 @@
-.Card{
-    width: 50%;
+.card{
+    width: 40%;
     margin: auto;
     margin-top: 30px;
 }
 
 .LoginForm{
-    background-color: rgb(73, 51, 150)00;
     width: 90%;
     margin: auto;
+}
+
+.alert{
+    margin-top: 10px;
 }

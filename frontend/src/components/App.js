@@ -9,6 +9,7 @@ import { useState } from 'react';
 import {AuthContext} from './auth';
 import { hasJWT } from "./auth";
 import FilmPage from './FilmPage';
+import UserPage from './UserPage';
 
 export default function App() {  
   const [isAuth, setAuth] = useState(hasJWT);
@@ -22,6 +23,7 @@ export default function App() {
           <Route reloadDocument path='/films' element={<Films />} />
           <Route path='/' element={<Welcome />} />
           <Route path='/films/film/:id' element={<FilmPage />} />
+          <Route path='/user/:username' element={<UserPage />} />
         </Routes>
     </BrowserRouter>
     </AuthContext.Provider>

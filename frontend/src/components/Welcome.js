@@ -1,15 +1,19 @@
-import { Button } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
+import { Nav, Button } from 'react-bootstrap';
+import { Link } from "react-router-dom";
 
 export default function Welcome() {
     let navigate = useNavigate(); 
     return (
         <div className="App">
             <header className="App-header">
-            <p>
+            <h1>
                 Welcome to FilmLib
-            </p>
-            <Button variant="light" onClick={() => navigate("/films")}>Go to film library</Button>
+            </h1>
+            <br />
+            <Nav.Link reloadDocument as={Link} to="/films">
+                <Button variant="light" size="lg">Go to the film library</Button>
+            </Nav.Link>
             </header>
         </div>
     );
