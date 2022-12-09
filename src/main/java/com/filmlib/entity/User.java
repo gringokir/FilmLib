@@ -1,5 +1,6 @@
 package com.filmlib.entity;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,6 +21,7 @@ public class User implements org.springframework.security.core.userdetails.UserD
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @JsonView(Views.User.class)
     private String username;
     private String password;
     private boolean active;
@@ -29,6 +31,7 @@ public class User implements org.springframework.security.core.userdetails.UserD
     @Enumerated(EnumType.STRING)
     private Set<Role> roles = new HashSet<>();
 
+    @JsonView(Views.User.class)
     @OneToMany(mappedBy = "user")
     private Set<FilmRating> filmRatings = new HashSet<>();
 

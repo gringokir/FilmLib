@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './styles/index.css';
 import App from './components/App';
 import reportWebVitals from './reportWebVitals';
-import {setAuthToken} from './components/auth'
+import {setAuthToken} from './components/AuthUtil'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 

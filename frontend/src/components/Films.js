@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from "axios";
-import { hasJWT } from "./auth";
+import { hasJWT } from "./AuthUtil";
 import { useNavigate } from "react-router-dom";
 import Table from 'react-bootstrap/Table';
 import Card from 'react-bootstrap/Card';

@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/Login.css'
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from './auth';
+import { AuthContext } from './AuthUtil';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -51,7 +51,7 @@ export default function Login() {
                onChange={e => setPassword(e.target.value)} placeholder="Password" />
             </Form.Group>
 
-            <Button variant="primary" type="submit">Submit</Button>
+            <Button variant="primary" type="submit">Login</Button>
           </Form>
           {alert && (
           <Alert className="alert" variant="danger" onClose={() => setAlert(false)} dismissible>

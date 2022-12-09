@@ -24,7 +24,10 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 public class AuthorizationFilter extends OncePerRequestFilter {
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain)
+            throws ServletException, IOException {
         if (
                 request.getServletPath().equals("/login") ||
                 request.getServletPath().equals("/registration") ||
@@ -36,8 +39,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
             if (authorizationHeader != null && authorizationHeader.startsWith(BEARER)) {
                 try {
                     String token = authorizationHeader.substring(BEARER.length());
-                    Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY.getBytes());
-                    JWTVerifier jwtVerifier = JWT.require(algorithm).build();
+                    JWTVerifier jwtVerifier = JWT.require(ALGORITHM).build();
                     DecodedJWT decodedJWT = jwtVerifier.verify(token);
 
                     String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
@@ -47,7 +49,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
                     });
 
                     UsernamePasswordAuthenticationToken authenticationToken =
-                            new UsernamePasswordAuthenticationToken(getUsername(token, algorithm), null, authorities);
+                            new UsernamePasswordAuthenticationToken(getUsername(token), null, authorities);
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
                     filterChain.doFilter(request, response);

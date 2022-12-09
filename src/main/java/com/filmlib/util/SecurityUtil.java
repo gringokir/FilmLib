@@ -7,7 +7,6 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.filmlib.entity.User;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -36,6 +35,8 @@ public class SecurityUtil {
             .toInstant()
             .toEpochMilli();
 
+    public static Algorithm ALGORITHM = Algorithm.HMAC256(SECRET_KEY.getBytes());
+
     public static void tokenException(HttpServletResponse response, Exception e) throws IOException {
         response.setHeader("error", e.getMessage());
         response.setStatus(FORBIDDEN.value());
@@ -45,15 +46,16 @@ public class SecurityUtil {
         new ObjectMapper().writeValue(response.getOutputStream(), error);
     }
 
-    public static String getUsername(String refreshToken, Algorithm algorithm) {
-        JWTVerifier jwtVerifier = JWT.require(algorithm).build();
+    public static String getUsername(String refreshToken) {
+        JWTVerifier jwtVerifier = JWT.require(ALGORITHM).build();
         DecodedJWT decodedJWT = jwtVerifier.verify(refreshToken);
         return decodedJWT.getSubject();
     }
 
-    public static String createAccessToken(Algorithm algorithm, UserDetails user) {
+    public static String createAccessToken(User user) {
         return JWT.create()
                 .withSubject(user.getUsername())
+                .withClaim("user_id", user.getId())
                 .withExpiresAt(new Date(ACCESS_TOKEN_EXPIRATION))
                 .withClaim(
                         "roles",
@@ -62,7 +64,15 @@ public class SecurityUtil {
                                 .map(GrantedAuthority::getAuthority)
                                 .collect(Collectors.toList())
                 )
-                .sign(algorithm);
+                .sign(ALGORITHM);
+    }
+
+    public static String getRefreshToken(User user) {
+        return JWT.create()
+                .withSubject(user.getUsername())
+                .withClaim("user_id", user.getId())
+                .withExpiresAt(new Date(REFRESH_TOKEN_EXPIRATION))
+                .sign(ALGORITHM);
     }
 
     public static void setTokensToResponse(HttpServletResponse response, String refreshToken, String accessToken) {

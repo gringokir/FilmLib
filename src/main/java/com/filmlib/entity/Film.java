@@ -18,9 +18,9 @@ import java.util.Set;
 public class Film {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @JsonView(Views.Film.class)
+    @JsonView({Views.Film.class, Views.User.class})
     private Long id;
-    @JsonView(Views.Film.class)
+    @JsonView({Views.Film.class, Views.User.class})
     private String title;
     @JsonView(Views.Film.class)
     private int yearOfCreation;

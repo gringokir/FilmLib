@@ -1,16 +1,21 @@
 import { useEffect, useState, useContext } from 'react';
 import {Navbar, Nav} from 'react-bootstrap';
-import { hasJWT, AuthContext } from "./auth";
+import { hasJWT, AuthContext, getUsernameAndIdFromToken } from "./AuthUtil";
 import { useNavigate, Link } from "react-router-dom";
 import '../styles/Navbar.css'
 
 export default function NavBar() {
     const [isLoggedIn, setIsLoggedIn] = new useState();
     const [username, setUsername] = new useState();
+    const [userId, setUserId] = new useState();
     const {isAuth, setAuth} = useContext(AuthContext);
+
     useEffect(() => {
         setIsLoggedIn(hasJWT);
-        getUsernameFromToken();
+        let usernameFromToken = getUsernameAndIdFromToken();
+        if(usernameFromToken){
+            setUsername(usernameFromToken);
+        }
     }, []);
     
     const navigate = useNavigate();
@@ -19,15 +24,6 @@ export default function NavBar() {
         localStorage.removeItem("accessToken");
         navigate("/login");
     }
-
-    function getUsernameFromToken() {
-        let token = localStorage.getItem("accessToken");
-        if(!token) { return; }
-        const base64url = token.split('.')[1];
-        const base64 = base64url.replace('-', '+').replace('_', '/');
-        setUsername(JSON.parse(window.atob(base64)).sub);
-    }
-
 
     return(
         <Navbar className="navbar" bg="light" variant="light">
@@ -41,14 +37,13 @@ export default function NavBar() {
                 <Navbar.Toggle />
             </Nav>
             <Nav>
-                {isAuth && (
+                {isAuth ? (
                     <>
                         <Nav.Link reloadDocument as={Link} onClick={() => navigate(`/user/${username}`)}>{username}</Nav.Link>
-                        <Nav.Link reloadDocument as={Link} onClick={logout}>Log out</Nav.Link></>
-                    )
-                }
-                {!isAuth && (
-                    <Nav.Link as={Link} to="/login">Login</Nav.Link>
+                        <Nav.Link reloadDocument as={Link} onClick={logout}>Log out</Nav.Link>
+                    </>
+                    ) : (
+                        <Nav.Link as={Link} to="/login">Login</Nav.Link>                        
                     )
                 }
             </Nav>

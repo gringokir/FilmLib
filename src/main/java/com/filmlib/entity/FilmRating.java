@@ -1,5 +1,7 @@
 package com.filmlib.entity;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -16,8 +18,10 @@ public class FilmRating {
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("filmId")
     @JoinColumn(name = "film_id")
+    @JsonView(Views.User.class)
     private Film film;
 
+    @JsonView(Views.User.class)
     private int rating;
 
     public FilmRating(User user, Film film, int rating) {

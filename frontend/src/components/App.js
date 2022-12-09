@@ -6,8 +6,8 @@ import Navbar from './NavBar';
 import Films from './Films'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from 'react';
-import {AuthContext} from './auth';
-import { hasJWT } from "./auth";
+import {AuthContext} from './AuthUtil';
+import { hasJWT } from "./AuthUtil";
 import FilmPage from './FilmPage';
 import UserPage from './UserPage';
 

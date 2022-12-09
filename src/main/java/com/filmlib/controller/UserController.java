@@ -1,10 +1,14 @@
 package com.filmlib.controller;
 
-import com.auth0.jwt.algorithms.Algorithm;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.filmlib.entity.Role;
 import com.filmlib.entity.User;
+import com.filmlib.entity.Views;
 import com.filmlib.repository.UserRepo;
+import com.filmlib.service.UserService;
 import com.filmlib.util.SecurityUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,19 +26,29 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Controller
 @RequestMapping("/users")
-@CrossOrigin(origins = "http://localhost:8081")
+@Slf4j
 //@PreAuthorize("hasAuthority('ADMIN')")
 public class UserController {
     private final UserRepo userRepo;
+    private final UserService userService;
 
-    public UserController(UserRepo userRepo) {
+    public UserController(UserRepo userRepo, UserService userService) {
         this.userRepo = userRepo;
+        this.userService = userService;
     }
 
     @GetMapping
     public String userList(Model model) {
         model.addAttribute("users", userRepo.findAll());
         return "userList";
+    }
+
+    @GetMapping("/user/{username}")
+    @ResponseBody
+    @JsonView(Views.User.class)
+    public User getUser(@PathVariable String username){
+        log.info("User: \"" + username +"\" was called");
+        return (User) userService.loadUserByUsername(username);
     }
 
     @GetMapping("{user}")
@@ -68,16 +82,22 @@ public class UserController {
         return "redirect:/users";
     }
 
+    @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public void deleteUser(@PathVariable Long id) {
+        userService.delete(id);
+        log.info("User with id: \"" + id +"\" was deleted");
+    }
+
     @GetMapping("/token/refresh")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authorizationHeader = request.getHeader(AUTHORIZATION);
         if (authorizationHeader != null && authorizationHeader.startsWith(BEARER)) {
             try {
                 String refreshToken = authorizationHeader.substring(BEARER.length());
-                Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY.getBytes());
-                User user = userRepo.findByUsername(getUsername(refreshToken, algorithm));
+                User user = userRepo.findByUsername(getUsername(refreshToken));
 
-                String accessToken = createAccessToken(algorithm, user);
+                String accessToken = createAccessToken(user);
 
                 setTokensToResponse(response, refreshToken, accessToken);
             } catch (Exception e) {

@@ -41,4 +41,17 @@ public class UserServiceImpl implements UserService {
         return userRepo.findAll();
     }
 
+    @Override
+    public User getUser(Long id) {
+        return userRepo.getReferenceById(id);
+    }
+
+    @Override
+    public void delete(Long id) {
+        User user = userRepo.getReferenceById(id);
+        user.getWatchedFilms().clear();
+        user.getFilmRatings().clear();
+        user.getRoles().clear();
+        userRepo.deleteById(id);
+    }
 }
