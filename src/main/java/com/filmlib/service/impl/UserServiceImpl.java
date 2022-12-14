@@ -1,6 +1,7 @@
 package com.filmlib.service.impl;
 
 import com.filmlib.entity.User;
+import com.filmlib.repository.RatingRepo;
 import com.filmlib.repository.UserRepo;
 import com.filmlib.security.PasswordConfig;
 import com.filmlib.service.UserService;
@@ -44,14 +45,5 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUser(Long id) {
         return userRepo.getReferenceById(id);
-    }
-
-    @Override
-    public void delete(Long id) {
-        User user = userRepo.getReferenceById(id);
-        user.getWatchedFilms().clear();
-        user.getFilmRatings().clear();
-        user.getRoles().clear();
-        userRepo.deleteById(id);
     }
 }

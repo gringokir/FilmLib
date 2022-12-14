@@ -57,7 +57,7 @@ function FilmRow({film}) {
     <tr>
       <td><Link to={`/films/film/${film.id}`}>{film.title}</Link> </td>
       <td>{film.yearOfCreation}</td>
-      <td>{film.genre}</td>
+      <td>{film.genre.map(genre => {return genre}).join(', ')}</td>
     </tr>
   )
 }

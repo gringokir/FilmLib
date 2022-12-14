@@ -9,5 +9,4 @@ public interface UserService extends UserDetailsService {
     User save(User user);
     List<User> getUsers();
     User getUser(Long id);
-    void delete(Long id);
 }

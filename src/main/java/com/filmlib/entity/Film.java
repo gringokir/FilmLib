@@ -24,6 +24,8 @@ public class Film {
     private String title;
     @JsonView(Views.Film.class)
     private int yearOfCreation;
+    @JsonView(Views.Film.class)
+    private String posterUrl;
 
     @ElementCollection(targetClass = Genre.class)
     @CollectionTable(name = "film_genre", joinColumns = @JoinColumn(name = "film_id"))

@@ -85,7 +85,6 @@ public class UserController {
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public void deleteUser(@PathVariable Long id) {
-        userService.delete(id);
         log.info("User with id: \"" + id +"\" was deleted");
     }
 
