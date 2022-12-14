@@ -36,3 +36,5 @@ dist/
 .DS_Store
 coverage/
 .vscode/
+
+secrets.properties
