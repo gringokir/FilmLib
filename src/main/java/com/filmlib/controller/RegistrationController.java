@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.Collections;
 
 @Controller
-@RequestMapping("/registration")
+@RequestMapping("/api/registration")
 public class RegistrationController {
     private final UserService userService;
 

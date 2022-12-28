@@ -3,6 +3,7 @@ package com.filmlib.security;
 import com.filmlib.repository.UserRepo;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -31,18 +32,38 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+            .cors().and().csrf().disable()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+            .authorizeRequests()
+                .antMatchers("/api/registration", "/", "/api/login", "/api/users/token/refresh")
+                .permitAll()
+            /*.antMatchers(
+                HttpMethod.GET,
+                "/index*", "/static/**", "/*.js", "/*.json", "/*.ico")
+                .permitAll()*/
+            .and()
+            .authorizeRequests().anyRequest().authenticated()
+            .and()
+            .addFilter(new AuthenticationFilter(authenticationManager(), userRepo))
+            .addFilter(loginPathAuthenticationFilter())
+            .addFilterBefore(new AuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+    }
+
+    public AuthenticationFilter loginPathAuthenticationFilter() throws Exception {
+        AuthenticationFilter authenticationFilter = new AuthenticationFilter(authenticationManager(), userRepo);
+        authenticationFilter.setFilterProcessesUrl("/api/login");
+        return authenticationFilter;
+    }
+
+    /*@Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
                 .cors().and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests().antMatchers("/registration", "/login", "/users/token/refresh").permitAll()
-                .and()
-                .authorizeRequests().antMatchers("/").hasAnyAuthority("ROLE_USER")
-                .and()
-                .authorizeRequests().anyRequest().authenticated()
-                .and()
-                .addFilter(new AuthenticationFilter(authenticationManager(), userRepo))
-                .addFilterBefore(new AuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
-    }
+                .authorizeRequests().antMatchers("/**").permitAll();
+    }*/
 
     @Bean
     public CorsFilter corsFilter() {

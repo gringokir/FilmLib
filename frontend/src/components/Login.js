@@ -13,6 +13,8 @@ export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  const loginUrl = "http://localhost:8080/login";
+
   const handleSubmit = (event) => {
       event.preventDefault();
 
@@ -20,7 +22,7 @@ export default function Login() {
       params.append('username', username);
       params.append('password', password);
 
-      axios.post('http://localhost:8081/login', params)
+      axios.post(loginUrl, params)
       .then(json => {
         localStorage.setItem("accessToken", json.data.accessToken);
         setAuth(true);

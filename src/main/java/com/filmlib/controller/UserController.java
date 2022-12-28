@@ -25,7 +25,7 @@ import static com.filmlib.util.SecurityUtil.*;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Controller
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 @Slf4j
 //@PreAuthorize("hasAuthority('ADMIN')")
 public class UserController {

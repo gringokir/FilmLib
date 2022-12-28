@@ -16,7 +16,7 @@ import java.util.Set;
 
 @Controller
 @Slf4j
-@RequestMapping("/films")
+@RequestMapping("/api/films")
 public class FilmController {
     private final FilmService filmService;
     private final ArtistService artistService;
