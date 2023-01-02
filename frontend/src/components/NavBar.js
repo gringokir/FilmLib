@@ -26,7 +26,7 @@ export default function NavBar() {
 
     function logout(){
         localStorage.removeItem("accessToken");
-        navigate(loginUrl);
+        navigate("/");
     }
 
     return(

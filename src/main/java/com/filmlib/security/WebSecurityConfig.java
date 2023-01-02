@@ -36,14 +36,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeRequests()
-                .antMatchers("/api/registration", "/", "/api/login", "/api/users/token/refresh")
+                .antMatchers(
+                        "/api/registration", "/", "/api/login", "/api/users/token/refresh",
+                        "/index*", "/static/**", "/*.js", "/*.json", "/*.ico"
+                )
                 .permitAll()
-            /*.antMatchers(
-                HttpMethod.GET,
-                "/index*", "/static/**", "/*.js", "/*.json", "/*.ico")
-                .permitAll()*/
-            .and()
-            .authorizeRequests().anyRequest().authenticated()
+                .anyRequest().authenticated()
             .and()
             .addFilter(new AuthenticationFilter(authenticationManager(), userRepo))
             .addFilter(loginPathAuthenticationFilter())
