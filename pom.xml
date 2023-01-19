@@ -39,19 +39,6 @@
             <optional>true</optional>
         </dependency>
 
-        <!--Thymeleaf-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
-        </dependency>
-
-        <!--Bootstrap-->
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>bootstrap</artifactId>
-            <version>5.2.3</version>
-        </dependency>
-
         <!--Database-->
         <dependency>
             <groupId>org.postgresql</groupId>
