@@ -29,7 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-    @Override
+    /*@Override
     protected void configure(HttpSecurity http) throws Exception {
         http
             .cors().and().csrf().disable()
@@ -46,6 +46,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .addFilter(new AuthenticationFilter(authenticationManager(), userRepo))
             .addFilter(loginPathAuthenticationFilter())
             .addFilterBefore(new AuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+    }*/
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .cors().and().csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeRequests().antMatchers("/**").permitAll();
     }
 
     public AuthenticationFilter loginPathAuthenticationFilter() throws Exception {
@@ -53,15 +62,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         authenticationFilter.setFilterProcessesUrl("/api/login");
         return authenticationFilter;
     }
-
-    /*@Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-                .cors().and().csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests().antMatchers("/**").permitAll();
-    }*/
 
     @Bean
     public CorsFilter corsFilter() {

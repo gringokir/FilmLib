@@ -37,18 +37,18 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping
-    public String userList(Model model) {
-        model.addAttribute("users", userRepo.findAll());
-        return "userList";
-    }
-
     @GetMapping("/user/{username}")
     @ResponseBody
     @JsonView(Views.User.class)
     public User getUser(@PathVariable String username){
         log.info("User: \"" + username +"\" was called");
         return (User) userService.loadUserByUsername(username);
+    }
+
+    /*@GetMapping
+    public String userList(Model model) {
+        model.addAttribute("users", userRepo.findAll());
+        return "userList";
     }
 
     @GetMapping("{user}")
@@ -86,7 +86,7 @@ public class UserController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public void deleteUser(@PathVariable Long id) {
         log.info("User with id: \"" + id +"\" was deleted");
-    }
+    }*/
 
     @GetMapping("/token/refresh")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {

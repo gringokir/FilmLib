@@ -13,7 +13,7 @@ export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const loginUrl = "http://localhost:8080/login";
+  const loginUrl = "http://localhost:8081/login";
 
   const handleSubmit = (event) => {
       event.preventDefault();

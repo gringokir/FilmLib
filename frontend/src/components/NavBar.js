@@ -47,7 +47,7 @@ export default function NavBar() {
                         <Nav.Link reloadDocument as={Link} onClick={logout}>Log out</Nav.Link>
                     </>
                     ) : (
-                        <Nav.Link as={Link} to={loginUrl}>Login</Nav.Link>                        
+                        <Nav.Link as={Link} to={loginUrl}>Login</Nav.Link>
                     )
                 }
             </Nav>
