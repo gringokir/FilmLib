@@ -13,7 +13,7 @@ export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const loginUrl = "http://localhost:8081/login";
+  const apiLoginUrl = process.env.REACT_APP_API_LINK + "/api/login";
 
   const handleSubmit = (event) => {
       event.preventDefault();
@@ -22,7 +22,7 @@ export default function Login() {
       params.append('username', username);
       params.append('password', password);
 
-      axios.post(loginUrl, params)
+      axios.post(apiLoginUrl, params)
       .then(json => {
         localStorage.setItem("accessToken", json.data.accessToken);
         setAuth(true);

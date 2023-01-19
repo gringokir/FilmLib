@@ -11,10 +11,10 @@ export default function FilmPage() {
     const { id } = useParams();
     const [film, setFilm] = useState("");
 
-    const filmUrl = `/films/film/${id}`;
+    const apiFilmUrl = process.env.REACT_APP_API_LINK + `/api/films/film/${id}`;
 
     useEffect(() => {
-        axios.get(filmUrl)
+        axios.get(apiFilmUrl)
         .then(res => setFilm(res.data))
         .catch((err) => console.error(err));
     }, []);
