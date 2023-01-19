@@ -10,10 +10,11 @@ import Col from 'react-bootstrap/Col';
 export default function FilmPage() {
     const { id } = useParams();
     const [film, setFilm] = useState("");
-    const url = `http://localhost:8081/films/film/${id}`;
+
+    const apiFilmUrl = process.env.REACT_APP_API_LINK + `/api/films/film/${id}`;
 
     useEffect(() => {
-        axios.get(url)
+        axios.get(apiFilmUrl)
         .then(res => setFilm(res.data))
         .catch((err) => console.error(err));
     }, []);
@@ -37,13 +38,9 @@ export default function FilmPage() {
                     </Col>
                 </Row>
             </Container>
-            
-            
             </>
         );
     } else {
         return(<span>Loading...</span>)
     }
-
-   
 }

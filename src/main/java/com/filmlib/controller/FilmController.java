@@ -16,7 +16,7 @@ import java.util.Set;
 
 @Controller
 @Slf4j
-@RequestMapping("/films")
+@RequestMapping("/api/films")
 public class FilmController {
     private final FilmService filmService;
     private final ArtistService artistService;
@@ -44,7 +44,7 @@ public class FilmController {
         return film;
     }
 
-    @GetMapping("/film")
+   /* @GetMapping("/film")
     public String filmPage(@RequestParam Long id, Model model) {
         Film film = filmService.findByID(id);
         model.addAttribute("film", film);
@@ -84,6 +84,6 @@ public class FilmController {
     public String deleteFilm(@RequestParam Long id) {
         filmService.delete(id);
         return "redirect:/films";
-    }
+    }*/
 
 }

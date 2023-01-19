@@ -21,8 +21,7 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 public class SecurityUtil {
-
-    public static String SECRET_KEY = "secret";
+    public static String SECRET_KEY = Secret.secretKey;
     public static String BEARER = "Bearer ";
     public static long ACCESS_TOKEN_EXPIRATION = LocalDate.now()
             .plusWeeks(2)

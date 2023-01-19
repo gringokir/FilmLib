@@ -12,11 +12,14 @@ export default function Films() {
   const [films, setFilms] = useState([]);
   const navigate = useNavigate();
 
+  const apiFilmsUrl = process.env.REACT_APP_API_LINK + "/api/films";
+  const loginUrl = "/login";
+
   useEffect(() => {
     if (!hasJWT()){
-      navigate("/login");
+      navigate(loginUrl);
     }
-    axios.get("http://localhost:8081/films")
+    axios.get(apiFilmsUrl)
     .then(res => setFilms(res.data))
     .catch((err) => console.error(err));
   }, [])

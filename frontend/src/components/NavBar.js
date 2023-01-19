@@ -10,6 +10,10 @@ export default function NavBar() {
     const [userId, setUserId] = new useState();
     const {isAuth, setAuth} = useContext(AuthContext);
 
+    const loginUrl = "/login";
+    const filmsUrl = "/films";
+    const userUrl = `/user/${username}`;
+
     useEffect(() => {
         setIsLoggedIn(hasJWT);
         let usernameFromToken = getUsernameAndIdFromToken();
@@ -22,7 +26,7 @@ export default function NavBar() {
 
     function logout(){
         localStorage.removeItem("accessToken");
-        navigate("/login");
+        navigate("/");
     }
 
     return(
@@ -31,7 +35,7 @@ export default function NavBar() {
             <Nav className="me-auto">
                 <Nav.Link as={Link} to="/">Home</Nav.Link>
                 {isAuth && (
-                    <Nav.Link reloadDocument as={Link} to="/films">Films</Nav.Link>
+                    <Nav.Link reloadDocument as={Link} to={filmsUrl}>Films</Nav.Link>
                 )
                 }
                 <Navbar.Toggle />
@@ -39,11 +43,11 @@ export default function NavBar() {
             <Nav>
                 {isAuth ? (
                     <>
-                        <Nav.Link reloadDocument as={Link} onClick={() => navigate(`/user/${username}`)}>{username}</Nav.Link>
+                        <Nav.Link reloadDocument as={Link} onClick={() => navigate(userUrl)}>{username}</Nav.Link>
                         <Nav.Link reloadDocument as={Link} onClick={logout}>Log out</Nav.Link>
                     </>
                     ) : (
-                        <Nav.Link as={Link} to="/login">Login</Nav.Link>                        
+                        <Nav.Link as={Link} to={loginUrl}>Login</Nav.Link>
                     )
                 }
             </Nav>

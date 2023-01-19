@@ -9,10 +9,11 @@ export default function UserPage() {
     const[user, setUser] = useState();
     const[filmRatings, setFilmRatings] = useState([]);
 
-    let url = `http://localhost:8081/users/user/${username}`;
+    const apiUserUrl = process.env.REACT_APP_API_LINK + `/api/users/user/${username}`;
+    const filmUrl = `/films/film/`;
 
     useEffect(() => {
-        axios.get(url)
+        axios.get(apiUserUrl)
         .then(res => {
             setUser(res.data);
             setFilmRatings(res.data.filmRatings)
@@ -34,7 +35,7 @@ export default function UserPage() {
     function FilmRow({film, rating}) {
         return(
           <tr>
-            <td><Link to={`/films/film/${film.id}`}>{film.title}</Link> </td>
+            <td><Link to={filmUrl+`${film.id}`}>{film.title}</Link></td>
             <td>{rating}</td>
           </tr>
         )
