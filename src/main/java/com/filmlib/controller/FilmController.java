@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Set;
 
-@Controller
+@RestController
 @Slf4j
 @RequestMapping("/api/films")
 public class FilmController {
@@ -28,7 +28,6 @@ public class FilmController {
     }
 
     @GetMapping
-    @ResponseBody
     @JsonView(Views.Film.class)
     public List<Film> all() {
         log.info("List of all films was called");
@@ -36,7 +35,6 @@ public class FilmController {
     }
 
     @GetMapping("/film/{id}")
-    @ResponseBody
     @JsonView(Views.Film.class)
     public Film filmPage(@PathVariable Long id) {
         Film film = filmService.findByID(id);

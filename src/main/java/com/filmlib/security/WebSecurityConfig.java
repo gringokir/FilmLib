@@ -29,7 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-    /*@Override
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
             .cors().and().csrf().disable()
@@ -46,9 +46,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .addFilter(new AuthenticationFilter(authenticationManager(), userRepo))
             .addFilter(loginPathAuthenticationFilter())
             .addFilterBefore(new AuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
-    }*/
+    }
 
-    @Override
+    /*@Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .cors().and().csrf().disable()
@@ -59,7 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(new AuthenticationFilter(authenticationManager(), userRepo))
                 .addFilter(loginPathAuthenticationFilter())
                 .addFilterBefore(new AuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
-    }
+    }*/
 
     public AuthenticationFilter loginPathAuthenticationFilter() throws Exception {
         AuthenticationFilter authenticationFilter = new AuthenticationFilter(authenticationManager(), userRepo);

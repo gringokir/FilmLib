@@ -10,6 +10,7 @@ import {AuthContext} from './AuthUtil';
 import { hasJWT } from "./AuthUtil";
 import FilmPage from './FilmPage';
 import UserPage from './UserPage';
+import Registration from './Registration';
 
 export default function App() {  
   const [isAuth, setAuth] = useState(hasJWT);
@@ -24,6 +25,7 @@ export default function App() {
           <Route path='/' element={<Welcome />} />
           <Route path='/films/film/:id' element={<FilmPage />} />
           <Route path='/user/:username' element={<UserPage />} />
+          <Route path='/registration' element={<Registration />} />
         </Routes>
     </BrowserRouter>
     </AuthContext.Provider>

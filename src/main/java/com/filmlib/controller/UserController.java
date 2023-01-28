@@ -24,10 +24,9 @@ import java.util.stream.Collectors;
 import static com.filmlib.util.SecurityUtil.*;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
-@Controller
+@RestController
 @RequestMapping("/api/users")
 @Slf4j
-//@PreAuthorize("hasAuthority('ADMIN')")
 public class UserController {
     private final UserRepo userRepo;
     private final UserService userService;
@@ -38,7 +37,6 @@ public class UserController {
     }
 
     @GetMapping("/user/{username}")
-    @ResponseBody
     @JsonView(Views.User.class)
     public User getUser(@PathVariable String username){
         log.info("User: \"" + username +"\" was called");

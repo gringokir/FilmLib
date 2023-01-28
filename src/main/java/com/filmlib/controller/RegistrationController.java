@@ -3,16 +3,19 @@ package com.filmlib.controller;
 import com.filmlib.entity.Role;
 import com.filmlib.entity.User;
 import com.filmlib.service.UserService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 
-@Controller
+@RestController
+@Slf4j
 @RequestMapping("/api/registration")
 public class RegistrationController {
     private final UserService userService;
@@ -21,30 +24,26 @@ public class RegistrationController {
         this.userService = userService;
     }
 
-    @GetMapping
-    public String registration() {
-        return "registration";
-    }
-
     @PostMapping
-    public String addUser(User user, Model model) throws UsernameNotFoundException {
-        org.springframework.security.core.userdetails.UserDetails userFromDb = null;
+    public ResponseEntity<String> addUser(User user) throws UsernameNotFoundException {
+        UserDetails userFromDb = null;
         try {
             userFromDb = userService.loadUserByUsername(user.getUsername());
-        } catch (UsernameNotFoundException e){
-            e.printStackTrace();
+        } catch (UsernameNotFoundException e) {
+            log.info("User with username: " + user.getUsername() + " is not found, proceeding with creation...");
         }
 
-
-        if (userFromDb != null) {
-            model.addAttribute("message", "User exists!");
-            return "registration";
+        if(userFromDb != null){
+            log.info("A user with username: " + user.getUsername() + " already exists!");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("A user with this username already exists!");
         }
 
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
         userService.save(user);
 
-        return "redirect:/login";
+        log.info("A user with username: " + user.getUsername() + " is created.");
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

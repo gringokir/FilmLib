@@ -3,7 +3,7 @@ import {Form, Button, Card, Alert} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/Login.css'
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from './AuthUtil';
 
 export default function Login() {
@@ -54,6 +54,7 @@ export default function Login() {
             </Form.Group>
 
             <Button variant="primary" type="submit">Login</Button>
+            <Link className="link" to={"/registration"}>Create account </Link>
           </Form>
           {alert && (
           <Alert className="alert" variant="danger" onClose={() => setAlert(false)} dismissible>
