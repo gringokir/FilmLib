@@ -1,13 +1,12 @@
 import { useEffect, useState, useContext } from 'react';
 import {Navbar, Nav} from 'react-bootstrap';
-import { hasJWT, AuthContext, getUsernameAndIdFromToken } from "./AuthUtil";
+import { hasJWT, AuthContext, getUsernameFromToken } from "./AuthUtil";
 import { useNavigate, Link } from "react-router-dom";
 import '../styles/Navbar.css'
 
 export default function NavBar() {
     const [isLoggedIn, setIsLoggedIn] = new useState();
     const [username, setUsername] = new useState();
-    const [userId, setUserId] = new useState();
     const {isAuth, setAuth} = useContext(AuthContext);
 
     const loginUrl = "/login";
@@ -16,7 +15,7 @@ export default function NavBar() {
 
     useEffect(() => {
         setIsLoggedIn(hasJWT);
-        let usernameFromToken = getUsernameAndIdFromToken();
+        let usernameFromToken = getUsernameFromToken();
         if(usernameFromToken){
             setUsername(usernameFromToken);
         }
