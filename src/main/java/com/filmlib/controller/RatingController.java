@@ -30,7 +30,15 @@ public class RatingController {
     }
 
     @PostMapping("/changeRating/{film}/{user}/{rating}")
-    public ResponseEntity<String> changeRating(@PathVariable Film film, @PathVariable User user, @PathVariable Integer rating) {
+    public ResponseEntity<String> changeRating(
+            @PathVariable Film film,
+            @PathVariable User user,
+            @PathVariable Integer rating
+    ) {
+        if (rating < 1 || rating > 5) {
+            log.info("Inappropriate rating: " + rating + " is submitted.");
+            return ResponseEntity.status(422).body("Inappropriate rating: " + rating + ". It should be from 1 to 5");
+        }
         ratingService.changeRating(user, film, rating);
         log.info("Rating " + rating + " from " + user.getUsername() + " for film " + film.getTitle() + " was added.");
         return new ResponseEntity<>(HttpStatus.OK);
